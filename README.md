@@ -2,8 +2,9 @@
 
 ## Installing
 
-- Clone this repo
-- `npm install`
+- Clone this repo - `git clone https://github.com/martindstone/pd-to-keptn-lambda.git`
+- Change directory to the root of this project - `cd pd-to-keptn-lambda`
+- Install the dependencies - `npm install`
 - zip up the contents of this directory (example on Mac: `zip -r myzip.zip *`)
 - Create a Node 14 lambda in AWS with basic execution permissions, and upload the zip file
 - Add an API Gateway trigger - choose Create an API, API Type: HTTP, Security: Open
