@@ -4,10 +4,10 @@ exports.handler = async (event) => {
   if (event.requestContext.http.method != 'POST') {
     return { statusCode: 200, body: 'ok' };
   }
-  let keptnhost, keptntoken, incidentID, token;
+  let cahost, catoken, incidentID, token;
   try {
-    keptnhost = process.env.keptnhost;
-    keptntoken = process.env.keptntoken;
+    cahost = process.env.cahost;
+    catoken = process.env.catoken;
     token = process.env.token;
     const body = JSON.parse(event.body);
     incidentID = body.__pd_metadata.incident.id;
@@ -35,7 +35,7 @@ exports.handler = async (event) => {
       body: `Couldn't get alerts from incident ${incidentID}`,
     });
   }
-  let keptnBody;
+  let caBody;
   try {
     const project = alert.body.cef_details.source_origin;
     const stage = alert.body.cef_details.event_class;
@@ -45,7 +45,7 @@ exports.handler = async (event) => {
     const triggeredid = alert.body.details.triggeredid;
     const incidentURL = alert.incident.html_url;
   
-    keptnBody = {
+    caBody = {
       "data": {
         project,
         stage,
@@ -74,24 +74,24 @@ exports.handler = async (event) => {
 
   try {
     r = await axios.request({
-      url: `https://${keptnhost}/api/v1/event`,
+      url: `https://${cahost}/api/v1/event`,
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'x-token': keptntoken,
+        'x-token': catoken,
       },
-      data: JSON.stringify(keptnBody),
+      data: JSON.stringify(caBody),
     });  
   } catch (e) {
     return ({
       statusCode: 200,
-      body: 'error sending request to keptn'
+      body: 'error sending request to Cloud Automation'
     })
   }
 
   return ({
     statusCode: 200,
-    body: `keptn response status ${r.statusCode}`
+    body: `Cloud Automation response status ${r.statusCode}`
   });
 };
