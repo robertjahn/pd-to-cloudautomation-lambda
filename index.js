@@ -12,7 +12,7 @@ exports.handler = async (event) => {
     const body = JSON.parse(event.body);
     incidentID = body.__pd_metadata.incident.id;
   } catch (e) {
-    return { statusCode: 200, body: 'required environment not supplied' };
+    return { statusCode: 200, body: 'required environment not supplied' + e.message };
   }
 
   const url = `https://api.pagerduty.com/incidents/${incidentID}/alerts`;
